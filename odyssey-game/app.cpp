@@ -25,8 +25,5 @@ bool Application::update(int flipIndex)
 
 void Application::render(int flipIndex)
 {
-	// render
-	// render_scene();
-
 	end_scene();
 }

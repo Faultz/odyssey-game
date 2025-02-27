@@ -12,6 +12,8 @@ public:
 
 	bool update(int flipIndex);
 	void render(int flipIndex);
+
+	bool is_open;
 };
 
 inline Application app; // Global application instance

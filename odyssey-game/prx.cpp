@@ -13,15 +13,38 @@ __declspec (dllexport) void dummy()
 {
 }
 
+void run_menu()
+{
+	static bool has_prev_pressed_key = false;
+	bool touchpad_down = liborbisutil::pad::current_pad_data.touchData.touchNum == 2;
+	if (touchpad_down && !has_prev_pressed_key)
+	{
+		has_prev_pressed_key = true;
+		app.is_open = !app.is_open;
+	}
+	else if (!touchpad_down)
+	{
+		has_prev_pressed_key = false;
+	}
+
+	if (!app.is_open)
+		return;
+
+	ImGui::Begin("Hello, world!");
+	ImGui::Text("This is some useful text.");
+
+	// test osk
+	static char buf[256] = { 0 };
+	ImGui::InputText("string", buf, 256);
+
+	ImGui::End();
+}
+
 void render(int flipIndex)
 {
 	if (app.update(flipIndex))
 	{
-		ImGui::Begin("Hello, world!");
-
-		ImGui::Text("This is some useful text.");
-
-		ImGui::End();
+		run_menu();
 
 		app.render(flipIndex);
 	}
