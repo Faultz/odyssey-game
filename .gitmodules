@@ -1,0 +1,15 @@
+[submodule "dependencies/liborbisutil"]
+	path = dependencies/liborbisutil
+	url = https://github.com/Faultz/liborbisutil.git
+[submodule "dependencies/fmtlib"]
+	path = dependencies/fmtlib
+	url = https://github.com/Faultz/fmtlib.git
+[submodule "dependencies/minhook"]
+	path = dependencies/minhook
+	url = https://github.com/Faultz/orbis-minhook.git
+[submodule "dependencies/StubMaker"]
+	path = dependencies/StubMaker
+	url = https://github.com/OSM-Made/StubMaker.git
+[submodule "dependencies/liborbisrender"]
+	path = dependencies/liborbisrender
+	url = https://github.com/Faultz/liborbisrender.git
