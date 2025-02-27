@@ -1,0 +1,80 @@
+name: Rename Project Files
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - '.github/workflows/**'
+  # This ensures the workflow runs when the repository is first created
+
+jobs:
+  rename:
+    # Only run on the first push to the repository
+    if: github.run_number == 1
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Rename files and update references
+      shell: pwsh
+      run: |
+        # Get the repository name (new project name)
+        $newName = "${{ github.repository }}".Split('/')[1]
+        $oldName = "odyssey-game"
+        
+        Write-Host "Renaming from '$oldName' to '$newName'"
+        
+        # Find and rename the solution file
+        $slnFiles = Get-ChildItem -Path . -Filter "*.sln" -Recurse
+        foreach ($file in $slnFiles) {
+            $newFileName = $file.Name -replace $oldName, $newName
+            $newFilePath = Join-Path -Path $file.DirectoryName -ChildPath $newFileName
+            Write-Host "Renaming $($file.FullName) to $newFilePath"
+            Rename-Item -Path $file.FullName -NewName $newFileName -Force
+            
+            # Update references in the solution file
+            $slnContent = Get-Content -Path $newFilePath -Raw
+            $slnContent = $slnContent -replace $oldName, $newName
+            Set-Content -Path $newFilePath -Value $slnContent -Force
+        }
+        
+        # Find and rename all vcxproj files
+        $vcxprojFiles = Get-ChildItem -Path . -Filter "*.vcxproj" -Recurse
+        foreach ($file in $vcxprojFiles) {
+            $newFileName = $file.Name -replace $oldName, $newName
+            $newFilePath = Join-Path -Path $file.DirectoryName -ChildPath $newFileName
+            Write-Host "Renaming $($file.FullName) to $newFilePath"
+            Rename-Item -Path $file.FullName -NewName $newFileName -Force
+            
+            # Update references in the vcxproj file
+            $content = Get-Content -Path $newFilePath -Raw
+            $content = $content -replace $oldName, $newName
+            Set-Content -Path $newFilePath -Value $content -Force
+        }
+        
+        # Update any vcxproj.filters files
+        $filterFiles = Get-ChildItem -Path . -Filter "*.vcxproj.filters" -Recurse
+        foreach ($file in $filterFiles) {
+            $newFileName = $file.Name -replace $oldName, $newName
+            $newFilePath = Join-Path -Path $file.DirectoryName -ChildPath $newFileName
+            Write-Host "Renaming $($file.FullName) to $newFilePath"
+            Rename-Item -Path $file.FullName -NewName $newFileName -Force
+            
+            # Update content in the filters file
+            $content = Get-Content -Path $newFilePath -Raw
+            $content = $content -replace $oldName, $newName
+            Set-Content -Path $newFilePath -Value $content -Force
+        }
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add .
+        git commit -m "Rename project files from odyssey-game to new repository name" || echo "No changes to commit"
+        git push
