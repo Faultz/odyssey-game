@@ -20,12 +20,6 @@ bool Application::update(int flipIndex)
 
 	update_scene();
 
-	ImGui::Begin("Hello, world!");
-
-	ImGui::Text("This is some useful text.");
-
-	ImGui::End();
-
 	return true;
 }
 

@@ -15,8 +15,16 @@ __declspec (dllexport) void dummy()
 
 void render(int flipIndex)
 {
-	if(app.update(flipIndex))
+	if (app.update(flipIndex))
+	{
+		ImGui::Begin("Hello, world!");
+
+		ImGui::Text("This is some useful text.");
+
+		ImGui::End();
+
 		app.render(flipIndex);
+	}
 }
 
 extern "C"
