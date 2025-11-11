@@ -13,7 +13,9 @@
 // the other flags like HookFlipForWorkload & HookFlipForVideoOut are optional and demonstrate additional hooking capabilities.
 // if needed. Most games will rely on just HookFlip but there are scenarios where the other hooks may be beneficial.
 // function flags like: FunctionRenderDebug will display additional debug information on screen if FunctionImGui is also enabled.
-
+// UnlockFps will set the fliprate to 0, uncapping framerate at the expense of causing potential screen tearing.
+// SubmitSelf will call sce::Gnm::submitDone after each frame submission to help with GPU synchronization in some scenarios.
+// RenderBeforeFlip will execute the user render callback before the flip occurs rather than after.
 /*
 +-----------------------------------------------------------------------+
 |     Hook Flag         |       Hooked Function							|
@@ -77,8 +79,6 @@ extern "C"
 				LOG_ERROR("failed to initialize minhook: %d\n", res);
 				return;
 			}
-
-			liborbisutil::patcher::create("mutex on list patch", "libkernel.sprx", 0x7850, { 0xC3 }, true);
 
 			app.init(FunctionImGui | HookFlip, render);
 
