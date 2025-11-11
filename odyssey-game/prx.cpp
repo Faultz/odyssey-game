@@ -8,12 +8,28 @@
 
 #pragma comment(lib, "liborbisrender.a")
 
+// This sample aims to provide a clear example of the basic usage of the liborbisrender library.
+// function flags used: FunctionImGui - to enable ImGui rendering and HookFlip - to hook into the flip process.
+// the other flags like HookFlipForWorkload & HookFlipForVideoOut are optional and demonstrate additional hooking capabilities.
+// if needed. Most games will rely on just HookFlip but there are scenarios where the other hooks may be beneficial.
+// function flags like: FunctionRenderDebug will display additional debug information on screen if FunctionImGui is also enabled.
+
+/*
++-----------------------------------------------------------------------+
+|     Hook Flag         |       Hooked Function							|
++-----------------------+-----------------------------------------------+
+|   HookFlip			|   sceGnmSubmitAndFlipCommandBuffers			|
+|   HookFlipForWorkload |   sceGnmSubmitAndFlipCommandBufferForWorkload	|
+|   HookFlipVideoOut	|   sceVideoOutSubmitFlip						|
++-----------------------------------------------------------------------+
+*/
+
 // We need to provide an export to force the expected stub library to be generated
 __declspec (dllexport) void dummy()
 {
 }
 
-void run_menu()
+void run_gui()
 {
 	static bool has_prev_pressed_key = false;
 	bool touchpad_down = liborbisutil::pad::current_pad_data.touchData.touchNum == 2;
@@ -44,7 +60,7 @@ void render(int flipIndex)
 {
 	if (app.update(flipIndex))
 	{
-		run_menu();
+		run_gui();
 
 		app.render(flipIndex);
 	}
