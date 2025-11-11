@@ -54,7 +54,7 @@ extern "C"
 {
 	int __cdecl module_start(size_t argc, const void* args)
 	{
-		liborbisutil::thread t([]() {
+		liborbisutil::thread t([](void*) {
 			auto res = MH_Initialize();
 			if (res != MH_OK)
 			{
@@ -83,7 +83,7 @@ extern "C"
 
 	int __cdecl module_stop(size_t argc, const void* args)
 	{
-		liborbisutil::thread t([]() {
+		liborbisutil::thread t([](void*) {
 
 			liborbisutil::pad::finalize();
 			app.cleanup();

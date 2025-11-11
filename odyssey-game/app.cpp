@@ -15,15 +15,15 @@ void Application::cleanup()
 
 bool Application::update(int flipIndex)
 {
-	if (!begin_scene(flipIndex))
+	if (!begin_frame(flipIndex))
 		return false;
 
-	update_scene();
+	update_frame();
 
 	return true;
 }
 
 void Application::render(int flipIndex)
 {
-	end_scene();
+	end_frame();
 }
