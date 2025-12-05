@@ -7,6 +7,7 @@
 #include "app.h"
 
 #pragma comment(lib, "liborbisrender.a")
+#pragma comment(lib, "libSceDbgShaderLiveEditing.a")
 
 // This sample aims to provide a clear example of the basic usage of the liborbisrender library.
 // function flags used: FunctionImGui - to enable ImGui rendering and HookFlip - to hook into the flip process.
@@ -64,7 +65,7 @@ void render(int flipIndex)
 	{
 		run_gui();
 
-		app.render(flipIndex);
+		app.render();
 	}
 }
 
@@ -80,7 +81,7 @@ extern "C"
 				return;
 			}
 
-			app.init(FunctionImGui | HookFlip, render);
+			app.init(FunctionImGui | HookFlip | FunctionRenderDebug, render);
 
 			liborbisutil::pad::initialize(liborbisutil::pad::state::read_state, true, [](ScePadData* pad, int num) {
 

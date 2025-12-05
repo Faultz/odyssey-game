@@ -11,7 +11,7 @@ public:
 	void cleanup();
 
 	bool update(int flipIndex);
-	void render(int flipIndex);
+	void render();
 
 	bool is_open;
 };

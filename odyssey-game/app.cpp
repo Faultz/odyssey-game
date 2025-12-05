@@ -3,8 +3,10 @@
 bool Application::init(uint32_t flags, std::function<void(int)> callback, std::function<void(ImGuiIO&)> font_callback)
 {
 	if (!render_context::create(flags, callback, font_callback))
+	{
+		LOG_ERROR("failed to initialize application render context\n");
 		return false;
-
+	}
 	return true;
 }
 
@@ -23,7 +25,7 @@ bool Application::update(int flipIndex)
 	return true;
 }
 
-void Application::render(int flipIndex)
+void Application::render()
 {
 	end_frame();
 }
