@@ -4,7 +4,7 @@
 #include <audioout.h>
 #include <liborbisutil.h>
 
-class Application : render_context
+class Application : public render_context
 {
 public:
 	bool init(uint32_t flags, std::function<void(int)> callback, std::function<void(ImGuiIO&)> font_callback = nullptr);
