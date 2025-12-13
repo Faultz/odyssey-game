@@ -2,21 +2,28 @@
 
 A PlayStation 4 plugin template using the ORBIS SDK with ImGui rendering capabilities.
 
+## 🚀 Quick Start (Template Setup)
+
+When you create a new repository from this template, you have two options to rename the project:
+
+### Option 1: Automatic (GitHub Actions)
+If GitHub Actions is enabled, the project will automatically rename itself to match your repository name on the first push.
+
+**If Actions isn't enabled:**
+1. Go to **Settings** → **Actions** → **General**
+2. Enable Actions and set **Workflow permissions** to "Read and write permissions"
+3. Go to **Actions** tab and manually run the "Initialize Template" workflow
+
+### Option 2: Local Script (Windows)
+```powershell
+.\scripts\rename-project.ps1 -NewName "your-project-name"
+```
+
+---
+
 ## Overview
 
-This project demonstrates the integration of `liborbisrender`, `liborbisutil`, and ImGui for creating interactive homebrew applications on PlayStation consoles. It provides a clean foundation for building custom PS4 applications with graphical user interfaces.
-
-## Requirements
-- [direct-memory-plugin](https://github.com/BoosieBois/direct-memory-plugin) - needed for games that will not have enough direct memory to allocate the renderer.
-
-- **PlayStation 4 Development Environment**
-  - PS4 SDK/ORBIS toolchain
-  - Visual Studio with PS4 development tools
-  - Jailbroken PS4 console (firmware 9.00 or compatible)
-
-- **Build Tools**
-  - Visual Studio 2022 (v143 toolset)
-  - Git with submodule support
+This project demonstrates the integration of `liborbisrender`, `liborbisutil`, and ImGui for creating interactive homebrew applications on PlayStation consoles. It provides a clean foundation for building custom PS4/PS5 applications with graphical user interfaces.
 
 ## Features
 
@@ -25,6 +32,25 @@ This project demonstrates the integration of `liborbisrender`, `liborbisutil`, a
 - **Input Handling**: Built-in gamepad input support with customizable callbacks
 - **On-Screen Keyboard**: Support for text input via ImGui
 - **Frame Management**: Proper frame synchronization and flip handling
+
+## Project Structure
+
+```
+odyssey-game/
+├── odyssey-game/          # Main application source
+│   ├── app.cpp           # Application implementation
+│   ├── app.h             # Application header
+│   ├── prx.cpp           # PRX entry point
+│   └── src/              # Additional source files
+├── dependencies/          # Third-party libraries
+│   ├── liborbisrender/   # PlayStation rendering library
+│   ├── liborbisutil/     # PlayStation utilities
+│   ├── minhook/          # Function hooking library
+│   ├── fmtlib/           # String formatting library
+│   └── StubMaker/        # SDK stub generation tools
+└── ORBIS_Debug/          # Build output directory
+└── ORBIS_Release/          # Build output directory
+```
 
 ## Dependencies
 
@@ -35,6 +61,12 @@ This project demonstrates the integration of `liborbisrender`, `liborbisutil`, a
 - **ORBIS SDK**: PlayStation 4 development SDK
 
 ## Building
+
+### Prerequisites
+
+- Visual Studio 2017 or later
+- ORBIS SDK properly installed and configured
+- PlayStation console with homebrew support (GoldHEN recommended)
 
 ### Build Steps
 
@@ -66,7 +98,6 @@ The application supports various render flags that can be configured in `prx.cpp
 - `FunctionRenderDebug`: Display debug information (requires FunctionImGui)
 - `UnlockFps`: Uncap framerate (may cause screen tearing)
 - `SubmitSelf`: Call `sce::Gnm::submitDone` after each frame
-- `FlipModeVSync`: Force flipmode to SCE_VIDEO_OUT_FLIP_MODE_VSYNC preventing flickering
 - `RenderBeforeFlip`: Execute render callback before flip
 
 ## Development
@@ -110,9 +141,6 @@ This project is provided as-is for educational and development purposes. Ensure 
 ## Acknowledgments
 
 - ImGui by Omar Cornut
-- GoldHEN team for homebrew enablement
-- The Boosie Bois
-- All dependency library authors
 
 ## Support
 
