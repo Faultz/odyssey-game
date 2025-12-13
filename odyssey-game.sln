@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99 d17.13
+VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "odyssey-game", "odyssey-game\odyssey-game.vcxproj", "{BB6960FB-F1E9-40EC-AA2D-84A1C6B4ED60}"
 	ProjectSection(ProjectDependencies) = postProject
