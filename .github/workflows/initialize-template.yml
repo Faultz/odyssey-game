@@ -1,8 +1,11 @@
 name: Initialize Template
 
 on:
-  # Runs when the repository is created from a template
-  create:
+  # Runs on first push when repo is created from template
+  push:
+    branches:
+      - master
+      - main
   # Also allow manual trigger
   workflow_dispatch:
     inputs:
