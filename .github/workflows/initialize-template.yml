@@ -1,0 +1,138 @@
+name: Initialize Template
+
+on:
+  # Runs when the repository is created from a template
+  create:
+  # Also allow manual trigger
+  workflow_dispatch:
+    inputs:
+      new_name:
+        description: 'New project name (leave empty to use repository name)'
+        required: false
+        type: string
+
+jobs:
+  initialize:
+    runs-on: ubuntu-latest
+    # Only run if this is NOT the template repository itself
+    if: github.repository != 'Faultz/odyssey-game'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Determine project name
+        id: get_name
+        run: |
+          # Use input if provided, otherwise use repository name
+          if [ -n "${{ github.event.inputs.new_name }}" ]; then
+            NEW_NAME="${{ github.event.inputs.new_name }}"
+          else
+            # Extract repo name from github.repository (owner/repo-name -> repo-name)
+            NEW_NAME="${{ github.event.repository.name }}"
+          fi
+          
+          echo "new_name=$NEW_NAME" >> $GITHUB_OUTPUT
+          echo "Project name will be: $NEW_NAME"
+
+      - name: Check if already initialized
+        id: check_init
+        run: |
+          if [ ! -f "odyssey-game.sln" ]; then
+            echo "Project appears to already be initialized (no odyssey-game.sln found)"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Rename project files and update references
+        if: steps.check_init.outputs.skip != 'true'
+        run: |
+          OLD_NAME="odyssey-game"
+          NEW_NAME="${{ steps.get_name.outputs.new_name }}"
+          
+          echo "Initializing project as '$NEW_NAME'"
+          
+          # Step 1: Update content inside files first (before renaming)
+          echo "Updating file contents..."
+          
+          # Update the solution file
+          if [ -f "$OLD_NAME.sln" ]; then
+            sed -i "s/$OLD_NAME/$NEW_NAME/g" "$OLD_NAME.sln"
+            echo "Updated: $OLD_NAME.sln"
+          fi
+          
+          # Update the vcxproj file
+          if [ -f "$OLD_NAME/$OLD_NAME.vcxproj" ]; then
+            sed -i "s/$OLD_NAME/$NEW_NAME/g" "$OLD_NAME/$OLD_NAME.vcxproj"
+            echo "Updated: $OLD_NAME/$OLD_NAME.vcxproj"
+          fi
+          
+          # Update the vcxproj.filters file
+          if [ -f "$OLD_NAME/$OLD_NAME.vcxproj.filters" ]; then
+            sed -i "s/$OLD_NAME/$NEW_NAME/g" "$OLD_NAME/$OLD_NAME.vcxproj.filters"
+            echo "Updated: $OLD_NAME/$OLD_NAME.vcxproj.filters"
+          fi
+          
+          # Update the vcxproj.user file if it exists
+          if [ -f "$OLD_NAME/$OLD_NAME.vcxproj.user" ]; then
+            sed -i "s/$OLD_NAME/$NEW_NAME/g" "$OLD_NAME/$OLD_NAME.vcxproj.user"
+            echo "Updated: $OLD_NAME/$OLD_NAME.vcxproj.user"
+          fi
+          
+          # Update README
+          if [ -f "README.md" ]; then
+            sed -i "s/$OLD_NAME/$NEW_NAME/g" "README.md"
+            echo "Updated: README.md"
+          fi
+          
+          # Update any references in source files
+          find "$OLD_NAME" -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.hpp" \) -exec sed -i "s/$OLD_NAME/$NEW_NAME/g" {} \;
+          echo "Updated source files"
+          
+          # Step 2: Rename files
+          echo "Renaming files..."
+          
+          # Rename vcxproj files inside the project folder
+          if [ -f "$OLD_NAME/$OLD_NAME.vcxproj" ]; then
+            mv "$OLD_NAME/$OLD_NAME.vcxproj" "$OLD_NAME/$NEW_NAME.vcxproj"
+            echo "Renamed: $OLD_NAME.vcxproj -> $NEW_NAME.vcxproj"
+          fi
+          
+          if [ -f "$OLD_NAME/$OLD_NAME.vcxproj.filters" ]; then
+            mv "$OLD_NAME/$OLD_NAME.vcxproj.filters" "$OLD_NAME/$NEW_NAME.vcxproj.filters"
+            echo "Renamed: $OLD_NAME.vcxproj.filters -> $NEW_NAME.vcxproj.filters"
+          fi
+          
+          if [ -f "$OLD_NAME/$OLD_NAME.vcxproj.user" ]; then
+            mv "$OLD_NAME/$OLD_NAME.vcxproj.user" "$OLD_NAME/$NEW_NAME.vcxproj.user"
+            echo "Renamed: $OLD_NAME.vcxproj.user -> $NEW_NAME.vcxproj.user"
+          fi
+          
+          # Step 3: Rename the project folder
+          if [ -d "$OLD_NAME" ]; then
+            mv "$OLD_NAME" "$NEW_NAME"
+            echo "Renamed folder: $OLD_NAME -> $NEW_NAME"
+          fi
+          
+          # Step 4: Rename the solution file
+          if [ -f "$OLD_NAME.sln" ]; then
+            mv "$OLD_NAME.sln" "$NEW_NAME.sln"
+            echo "Renamed: $OLD_NAME.sln -> $NEW_NAME.sln"
+          fi
+          
+          # Step 5: Clean up build directories (optional - they'll be regenerated)
+          rm -rf "ORBIS_Debug" "ORBIS_Release" 2>/dev/null || true
+          rm -rf "$NEW_NAME/ORBIS_Debug" "$NEW_NAME/ORBIS_Release" 2>/dev/null || true
+          
+          echo "Project initialization complete!"
+
+      - name: Commit and push changes
+        if: steps.check_init.outputs.skip != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add -A
+          git commit -m "Initialize project as ${{ steps.get_name.outputs.new_name }}" || echo "No changes to commit"
+          git push
