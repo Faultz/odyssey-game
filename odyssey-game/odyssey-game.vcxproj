@@ -59,7 +59,7 @@
     </ClCompile>
     <Link>
       <Addressing>NonAslr</Addressing>
-      <AdditionalLibraryDirectories>$(SolutionDir)ORBIS_Debug;$(SolutionDir)dependencies/StubMaker;$(SolutionDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)dependencies/StubMaker/Build;$(SolutionDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>"$(SolutionDir)dependencies\self\make_fself.exe"  "$(OutputPath)$(TargetName).prx"  "$(OutputPath)$(TargetName).sprx"</Command>
