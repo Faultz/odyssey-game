@@ -6,8 +6,17 @@ A PlayStation 4 plugin template using the ORBIS SDK with ImGui rendering capabil
 
 This project demonstrates the integration of `liborbisrender`, `liborbisutil`, and ImGui for creating interactive homebrew applications on PlayStation consoles. It provides a clean foundation for building custom PS4 applications with graphical user interfaces.
 
-## Prerequisite
+## Requirements
 - [direct-memory-plugin](https://github.com/BoosieBois/direct-memory-plugin) - needed for games that will not have enough direct memory to allocate the renderer.
+
+- **PlayStation 4 Development Environment**
+  - PS4 SDK/ORBIS toolchain
+  - Visual Studio with PS4 development tools
+  - Jailbroken PS4 console (firmware 9.00 or compatible)
+
+- **Build Tools**
+  - Visual Studio 2022 (v143 toolset)
+  - Git with submodule support
 
 ## Features
 
@@ -16,25 +25,6 @@ This project demonstrates the integration of `liborbisrender`, `liborbisutil`, a
 - **Input Handling**: Built-in gamepad input support with customizable callbacks
 - **On-Screen Keyboard**: Support for text input via ImGui
 - **Frame Management**: Proper frame synchronization and flip handling
-
-## Project Structure
-
-```
-odyssey-game/
-├── odyssey-game/          # Main application source
-│   ├── app.cpp           # Application implementation
-│   ├── app.h             # Application header
-│   ├── prx.cpp           # PRX entry point
-│   └── src/              # Additional source files
-├── dependencies/          # Third-party libraries
-│   ├── liborbisrender/   # PlayStation rendering library
-│   ├── liborbisutil/     # PlayStation utilities
-│   ├── minhook/          # Function hooking library
-│   ├── fmtlib/           # String formatting library
-│   └── StubMaker/        # SDK stub generation tools
-└── ORBIS_Debug/          # Build output directory
-└── ORBIS_Release/          # Build output directory
-```
 
 ## Dependencies
 
@@ -45,12 +35,6 @@ odyssey-game/
 - **ORBIS SDK**: PlayStation 4 development SDK
 
 ## Building
-
-### Prerequisites
-
-- Visual Studio 2017 or later
-- ORBIS SDK properly installed and configured
-- PlayStation console with homebrew support (GoldHEN recommended)
 
 ### Build Steps
 
