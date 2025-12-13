@@ -79,7 +79,7 @@
     </Link>
     <Link>
       <DataStripping>StripFuncsAndData</DataStripping>
-      <AdditionalLibraryDirectories>$(SolutionDir)ORBIS_Debug;$(SolutionDir)dependencies/StubMaker;$(SolutionDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)dependencies/StubMaker/Build;$(SolutionDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
