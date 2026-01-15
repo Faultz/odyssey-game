@@ -53,9 +53,9 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <AdditionalIncludeDirectories>$(SolutionDir)dependencies\StubMaker\include;$(SolutionDir)dependencies\minhook\libMinhook;$(SolutionDir)dependencies\fmtlib\fmtlib;$(SolutionDir)dependencies\liborbisutil\liborbisutil\include;$(SolutionDir)dependencies\liborbisrender\liborbisrender\include;C:\Users\notmy\Documents\Playstation\ps4-sdks\9.00\target\src\gnmx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <CppLanguageStd>Cpp20</CppLanguageStd>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppExceptions>true</CppExceptions>
+      <CppLanguageStd>Cpp17</CppLanguageStd>
     </ClCompile>
     <Link>
       <Addressing>NonAslr</Addressing>

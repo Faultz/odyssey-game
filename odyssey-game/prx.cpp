@@ -32,6 +32,11 @@ __declspec (dllexport) void dummy()
 {
 }
 
+extern "C" {
+	__declspec(dllexport) void* _ZTINSt8ios_base7failureE = nullptr;
+	__declspec(dllexport) void* _ZTVSt5ctypeIcE = nullptr;
+}
+
 void run_gui()
 {
 	static bool has_prev_pressed_key = false;
