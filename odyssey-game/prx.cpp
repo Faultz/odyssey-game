@@ -9,6 +9,9 @@
 #pragma comment(lib, "liborbisrender.a")
 #pragma comment(lib, "libSceDbgShaderLiveEditing.a")
 
+#include <C:\Users\notmy\Documents\Github\Fusion\External\libFusionDriver/libFusionDriver/FusionDriver.h>
+#pragma comment(lib, "C:/Users/notmy/Documents/Github/Fusion/External/libFusionDriver/Build/libFusionDriver.a")
+
 // This sample aims to provide a clear example of the basic usage of the liborbisrender library.
 // function flags used: FunctionImGui - to enable ImGui rendering and HookFlip - to hook into the flip process.
 // the other flags like HookFlipForWorkload & HookFlipForVideoOut are optional and demonstrate additional hooking capabilities.
@@ -35,6 +38,7 @@ __declspec (dllexport) void dummy()
 extern "C" {
 	__declspec(dllexport) void* _ZTINSt8ios_base7failureE = nullptr;
 	__declspec(dllexport) void* _ZTVSt5ctypeIcE = nullptr;
+	__declspec(dllexport) void* _ZTISt8bad_cast = nullptr;
 }
 
 void run_gui()
@@ -57,11 +61,17 @@ void run_gui()
 	ImGui::Begin("Hello, world!");
 	ImGui::Text("This is some useful text.");
 
-	// test osk
 	static char buf[256] = { 0 };
-	ImGui::InputText("string", buf, 256);
+	ImGui::InputText("string", buf, sizeof(buf));
+
+	static texture tex("https://downloads.fadedhd.com/IMG/logo.png");
+	if (tex)
+	{
+		ImGui::Image(&tex, { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y });
+	}
 
 	ImGui::End();
+
 }
 
 void render(int flipIndex)
@@ -85,6 +95,7 @@ extern "C"
 				LOG_ERROR("failed to initialize minhook: %d\n", res);
 				return;
 			}
+			liborbisutil::http::initialize();
 
 			app.init(FunctionImGui | HookFlip | FunctionRenderDebug, render);
 
@@ -95,6 +106,16 @@ extern "C"
 					memcpy(&bd->m_sce_pad, pad, sizeof(ScePadData));
 
 				});
+
+			JailBackup backup;
+			Fusion::Jailbreak(getpid(), &backup);
+			
+			int size = 4;
+			int flag = 1;
+			sysctlbyname("Fusion.FeatureFlag.DirectMemory", nullptr, 0, &flag, size);
+
+			
+			Fusion::RestoreJail(getpid(), backup);
 
 			}, "init");
 
@@ -109,6 +130,8 @@ extern "C"
 
 			liborbisutil::pad::finalize();
 			app.cleanup();
+
+			liborbisutil::http::finalize();
 
 			sceKernelUsleep(500 * 1000);
 

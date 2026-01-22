@@ -51,7 +51,7 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\StubMaker\include;$(SolutionDir)dependencies\minhook\libMinhook;$(SolutionDir)dependencies\fmtlib\fmtlib;$(SolutionDir)dependencies\liborbisutil\liborbisutil\include;$(SolutionDir)dependencies\liborbisrender\liborbisrender\include;C:\Users\notmy\Documents\Playstation\ps4-sdks\9.00\target\src\gnmx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\StubMaker\include;$(SolutionDir)dependencies\minhook\libMinhook;$(SolutionDir)dependencies\fmtlib\fmtlib;$(SolutionDir)dependencies\liborbisutil\liborbisutil\include;$(SolutionDir)dependencies\liborbisrender\liborbisrender\include;C:\Users\notmy\Documents\Playstation\ps4-sdks\9.00\target\src\gnmx;C:\Users\notmy\Documents\Github\Fusion\External\libFusionDriver\External\FusionShared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppExceptions>true</CppExceptions>
