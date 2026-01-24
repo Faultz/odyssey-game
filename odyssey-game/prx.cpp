@@ -41,6 +41,9 @@ extern "C" {
 	__declspec(dllexport) void* _ZTISt8bad_cast = nullptr;
 }
 
+#define COLORED_LOG
+
+
 void run_gui()
 {
 	static bool has_prev_pressed_key = false;
@@ -64,12 +67,6 @@ void run_gui()
 	static char buf[256] = { 0 };
 	ImGui::InputText("string", buf, sizeof(buf));
 
-	static texture tex("https://downloads.fadedhd.com/IMG/logo.png");
-	if (tex)
-	{
-		ImGui::Image(&tex, { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y });
-	}
-
 	ImGui::End();
 
 }
@@ -84,11 +81,13 @@ void render(int flipIndex)
 	}
 }
 
+
 extern "C"
 {
 	int __cdecl module_start(size_t argc, const void* args)
 	{
 		liborbisutil::thread t([](void*) {
+
 			auto res = MH_Initialize();
 			if (res != MH_OK)
 			{
@@ -97,7 +96,7 @@ extern "C"
 			}
 			liborbisutil::http::initialize();
 
-			app.init(FunctionImGui | HookFlip | FunctionRenderDebug, render);
+			app.init(FunctionImGui | HookFlip | FunctionRenderDebug | RenderBeforeFlip | SubmitSelf, render);
 
 			liborbisutil::pad::initialize(liborbisutil::pad::state::read_state, true, [](ScePadData* pad, int num) {
 
@@ -106,16 +105,6 @@ extern "C"
 					memcpy(&bd->m_sce_pad, pad, sizeof(ScePadData));
 
 				});
-
-			JailBackup backup;
-			Fusion::Jailbreak(getpid(), &backup);
-			
-			int size = 4;
-			int flag = 1;
-			sysctlbyname("Fusion.FeatureFlag.DirectMemory", nullptr, 0, &flag, size);
-
-			
-			Fusion::RestoreJail(getpid(), backup);
 
 			}, "init");
 
