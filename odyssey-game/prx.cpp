@@ -9,9 +9,6 @@
 #pragma comment(lib, "liborbisrender.a")
 #pragma comment(lib, "libSceDbgShaderLiveEditing.a")
 
-#include <C:\Users\notmy\Documents\Github\Fusion\External\libFusionDriver/libFusionDriver/FusionDriver.h>
-#pragma comment(lib, "C:/Users/notmy/Documents/Github/Fusion/External/libFusionDriver/Build/libFusionDriver.a")
-
 // This sample aims to provide a clear example of the basic usage of the liborbisrender library.
 // function flags used: FunctionImGui - to enable ImGui rendering and HookFlip - to hook into the flip process.
 // the other flags like HookFlipForWorkload & HookFlipForVideoOut are optional and demonstrate additional hooking capabilities.
