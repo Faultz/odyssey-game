@@ -70,10 +70,11 @@ odyssey-game/
 
 ### Build Steps
 
-1. Open `odyssey-game.sln` in Visual Studio
-2. Select the desired configuration (Debug|ORBIS or Release|ORBIS)
-3. Build the solution (Ctrl+Shift+B)
-4. The compiled `.prx` and `.sprx` files will be output to the `ORBIS_Debug/` or `ORBIS_Release/` directory
+1. Build StubMaker using the script provided in dependencies/StubMaker
+2. Open `odyssey-game.sln` in Visual Studio
+3. Select the desired configuration (Debug|ORBIS or Release|ORBIS)
+4. Build the solution (Ctrl+Shift+B)
+5. The compiled `.prx` and `.sprx` files will be output to the `ORBIS_Debug/` or `ORBIS_Release/` directory
 
 ## Usage
 
